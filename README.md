@@ -5,10 +5,6 @@ Simple API deployed on a minikube cluster
 
 **Author:** *Adrien Fuss*
 
-# TODO
-Secu docker pour ma être en root
-
-
 # Introduction
 This project is a simple API based on a Flask application (python framework). 
 A docker image and helm chart is provided to deploy our flask API on a minikube cluster.
@@ -142,6 +138,6 @@ Output:
 Hello world
 ```
 
-Your flask application is now working on our minikube cluster !
+Your flask application is now working on your minikube cluster !
 
 
