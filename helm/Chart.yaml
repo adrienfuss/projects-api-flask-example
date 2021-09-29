@@ -1,0 +1,8 @@
+apiVersion: v2
+name: flask-api-chart
+version: 0.0.1
+appVersion: 0.0.1
+description: Simple API (Flask)
+maintainers:
+  - name: Adrien Fuss
+email: adrienfuss@hotmail.fr
