@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    deployment.name : {{ .Release.Name }}
+    deployment.app: {{ .Chart.Name }}
+    deployment.chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    deployment.release: {{ .Release.Name }}
+    deployment.heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      deployment.name: {{ .Release.Name }}
+      deployment.namespace: {{ .Release.Namespace }}
+  template:
+    metadata:
+      labels:
+        deployment.name : {{ .Release.Name }}
+        deployment.namespace: {{ .Release.Namespace }}
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.Image.repository }}:{{ .Values.Image.tag }}
+          imagePullPolicy: {{ .Values.Image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.Service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Service.internalPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Service.internalPort }}
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
+      restartPolicy: Always
